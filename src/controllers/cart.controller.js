@@ -1,10 +1,9 @@
-import cartModel, {Cart} from '../models/cart.model'
-import { Request, Response } from 'express'
-import {errorLog} from './logger.service'
+const cartModel = require('../models/cart.model')
+const {errorLog} = require('../service/logger.service')
 
-const cartService = {
+const cartController = {
 
-    createCart: (req: Request, res: Response) => {
+    createCart: (req, res) => {
         const { timestamp, products } = req.body
         const cart = {
             timestamp,
@@ -13,43 +12,43 @@ const cartService = {
         const nuevoCart = new cartModel(cart)
         nuevoCart.save()
             .then(() => res.sendStatus(201))
-            .catch((err: any) => {
+            .catch((err) => {
                 res.send({ error: 6, descripcion: "Error al crear el carrito" })
                 errorLog.error(err)
             })
     },
 
-    getCarts: (req: Request, res: Response) => {
+    getCarts: (req, res) => {
         cartModel.find({})
-        .then((carts:Cart[]) => res.send(carts))
-        .catch((err: any) => {
+        .then((carts) => res.send(carts))
+        .catch((err) => {
             res.send({ error: 7, descripcion: "Carrito no encontrado" })
             errorLog.error(err)
         })
     },
 
-    getCartById: (req: Request, res: Response) => {
+    getCartById: (req, res) => {
         const id = req.params.id
         cartModel.find({ "_id": id })
-            .then((cart:Cart) => res.send(cart))
-            .catch((err: any) => {
+            .then((cart) => res.send(cart))
+            .catch((err) => {
                 res.send({ error: 7, descripcion: "Carrito no encontrado" })
                 errorLog.error(err)
             })
 
     },
 
-    removeCart: (req: Request, res: Response) => {
+    removeCart: (req, res) => {
         const id = req.params.id
         cartModel.deleteOne({ "_id": id })
             .then(() => res.sendStatus(204))
-            .catch((err: any) => {
+            .catch((err) => {
                 res.send({ error: 8, descripcion: "No se pudo eliminar el carrito" })
                 errorLog.error(err)
             })
     },
 
-    addToCart: (req: Request, res: Response) => {
+    addToCart: (req, res) => {
         const id = req.params.id
         const {timestamp, products} = req.body.cart
         const product = req.body.product
@@ -58,16 +57,16 @@ const cartService = {
             $set: {timestamp, products: product, ...products}
         }
         )
-        .then((cart:Cart) => res.send(cart))
-        .catch((err: any) => {
+        .then((cart) => res.send(cart))
+        .catch((err) => {
             res.send({error: 4, descripcion: "No se pudo actualizar el carrito"})
             errorLog.error(err)
         })
     },
 
-    removeFromCart: (req: Request, res: Response) => {
+    removeFromCart: (req, res) => {
         const id = req.params.id
-        const cart: Cart = req.body.cart
+        const cart = req.body.cart
         let {timestamp, products} = cart
         const product = req.body.product
         products = products.filter(product => product !== product)
@@ -76,8 +75,8 @@ const cartService = {
             $set: {timestamp, products}
         }
         )
-        .then((cart:Cart) => res.send(cart))
-        .catch((err: any) => {
+        .then((cart) => res.send(cart))
+        .catch((err) => {
             res.send({error: 4, descripcion: "No se pudo actualizar el carrito"})
             errorLog.error(err)
         })
@@ -86,4 +85,4 @@ const cartService = {
 
 }
 
-export default cartService
+module.exports = cartController

@@ -1,9 +1,8 @@
-import productService from '../service/product.service'
-import { Request, Response, Router } from 'express'
+const productService =  require('../controllers/product.controller')
 
-const Productos = (router: Router) => {
+const Productos = (router) => {
 
-    router.get('/productos', (req: Request, res: Response) => {
+    router.get('/productos', (req, res) => {
         if (req.query.title) {
             productService.getProductByTitle(req, res)
         } else if (req.query.min) {
@@ -13,7 +12,7 @@ const Productos = (router: Router) => {
         }
     })
 
-    router.post('/productos', (req: Request, res: Response) => {
+    router.post('/productos', (req, res) => {
         if (req.isAuthenticated()) {
             productService.addProduct(req, res)
         } else {
@@ -22,7 +21,7 @@ const Productos = (router: Router) => {
 
     })
 
-    router.get('/productos/:id', (req: Request, res: Response) => {
+    router.get('/productos/:id', (req, res) => {
         if (req.isAuthenticated()) {
 
             productService.getProductById(req, res)
@@ -31,7 +30,7 @@ const Productos = (router: Router) => {
         }
     })
 
-    router.patch('/productos/:id', (req: Request, res: Response) => {
+    router.patch('/productos/:id', (req, res) => {
 
         if (req.isAuthenticated()) {
             productService.updateProduct(req, res)
@@ -41,7 +40,7 @@ const Productos = (router: Router) => {
 
     })
 
-    router.delete('/productos/:id', (req: Request, res: Response) => {
+    router.delete('/productos/:id', (req, res) => {
         if (req.isAuthenticated()) {
             productService.removeProduct(req, res)
         } else {
@@ -51,4 +50,4 @@ const Productos = (router: Router) => {
     })
 }
 
-export default Productos
+module.exports = Productos

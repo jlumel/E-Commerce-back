@@ -1,24 +1,22 @@
-import nodemailer from 'nodemailer'
-import {Product} from '../models/product.model'
-import { User } from '../models/users.model'
-import { logger, errorLog } from './logger.service'
-import dotenv from 'dotenv'
+const nodemailer =  require('nodemailer')
+const {Product} =  require('../models/product.model')
+const { User } =  require('../models/users.model')
+const { logger, errorLog } = require('./logger.service.js')
+const config = require('../config/config')
 
-dotenv.config()
-
-const sendMail = (type: string, user: User, cart: Product[]) => {
+const sendMail = (type, user, cart) => {
     const transporter = nodemailer.createTransport({
         host: 'smtp.ethereal.email',
         port: 587,
         auth: {
-            user: process.env.NODEMAILER_USER,
-            pass: process.env.NODEMAILER_PASS
+            user: config.nodemailer_user,
+            pass: config.nodemailer_pass
         }
     })
 
     const registerOptions = {
         from: 'Ecommerce NodeJS',
-        to: process.env.NODEMAILER_USER,
+        to: config.nodemailer_user,
         subject: 'Información de registro de usuario',
         html: `<h1>${user.username} se ha registrado exitosamente ${new Date().toLocaleString()}</h1>`
     }
@@ -59,5 +57,5 @@ const sendMail = (type: string, user: User, cart: Product[]) => {
 
 }
 
-export default sendMail
+module.exports = sendMail
 

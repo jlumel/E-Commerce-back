@@ -1,8 +1,6 @@
-import { Router } from 'express'
-import cartService from '../service/cart.service'
-import sendMail from '../service/nodemailer.service'
-import {sendWhatsapp, sendSMS} from '../service/twilio.service'
-const Carrito = (router: Router) => {
+const cartService = require('../controllers/cart.controller')
+const sendMail = require('../service/nodemailer.service')
+const Carrito = (router) => {
 
     router.get('/carrito', (req, res) => {
         if (req.isAuthenticated()) {
@@ -45,11 +43,9 @@ const Carrito = (router: Router) => {
         const cart = req.body.cart
         const user = req.body.user
         sendMail('checkout', user, cart)
-        sendWhatsapp(user)
-        sendSMS(user)
         res.send(cart)
     })
 
 }
 
-export default Carrito
+module.exports = Carrito

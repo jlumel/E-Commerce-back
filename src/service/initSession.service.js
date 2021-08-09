@@ -1,12 +1,9 @@
-import MongoStore from 'connect-mongo'
-import session from 'express-session'
-import {Application} from 'express'
-import dotenv from 'dotenv'
-
-dotenv.config()
+const MongoStore =  require('connect-mongo')
+const session = require('express-session')
+const config = require('../config/config')
 const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 
-const initSession = (app:Application) => {
+const initSession = (app) => {
     
     app.use(session({
         store: MongoStore.create({
@@ -14,10 +11,10 @@ const initSession = (app:Application) => {
             mongoOptions: advancedOptions
         }),
         secret: 'session',
-        cookie: { maxAge: 600000 },
+        cookie: { maxAge: Number(config.session_ttl) },
         resave: false,
         saveUninitialized: false
     }))
 } 
 
-export default initSession
+module.exports = initSession

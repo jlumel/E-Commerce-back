@@ -1,22 +1,19 @@
 import bCrypt from 'bcrypt'
-import passport_local from 'passport-local'
 import userModel, { User } from '../models/users.model'
-import passport from 'passport'
-import { Application, Request } from 'express'
-import { logger, errorLog } from './logger.service'
+import { logger, errorLog } from './logger.service.js'
 
 const LocalStrategy = passport_local.Strategy
-const validatePassword = (user: User, password: string) => bCrypt.compareSync(password, user.password)
-const createHash = (password: string) => bCrypt.hashSync(password, bCrypt.genSaltSync(10))
+const validatePassword = (user, password) => bCrypt.compareSync(password, user.password)
+const createHash = (password) => bCrypt.hashSync(password, bCrypt.genSaltSync(10))
 
-const passportLocal = (app: Application) => {
+const passportLocal = (app) => {
 
-    passport.serializeUser((user: any, next: any) => {
+    passport.serializeUser((user, next) => {
         next(null, user._id)
     })
 
-    passport.deserializeUser((id: string, next: any) => {
-        userModel.findById(id, (err: any, user: User) => {
+    passport.deserializeUser((id, next) => {
+        userModel.findById(id, (err, user) => {
             next(err, user)
         })
     })
@@ -26,8 +23,8 @@ const passportLocal = (app: Application) => {
             {
                 passReqToCallback: true
             },
-            (req: Request, username: string, password: string, next: any) => {
-                userModel.findOne({ username: username }, (err: any, user: User) => {
+            (req, username, password, next) => {
+                userModel.findOne({ username: username }, (err, user) => {
                     if (err) return next(err)
                     if (!user) {
                         logger.info('Usuario no encontrado')
@@ -48,9 +45,9 @@ const passportLocal = (app: Application) => {
             {
                 passReqToCallback: true
             },
-            (req: Request, username: string, next: any) => {
+            (req, username, next) => {
                 const findOrCreateUser = () => {
-                    userModel.findOne({ username: username }, (err: Object, user: User) => {
+                    userModel.findOne({ username: username }, (err, user) => {
                         if (err) {
                             errorLog.error(err)
                             return next(err)
@@ -70,7 +67,7 @@ const passportLocal = (app: Application) => {
                             newUser.age = Number(age)
                             newUser.phone = phone
                             newUser.avatar = avatar
-                            newUser.save((err: any) => {
+                            newUser.save((err) => {
                                 if (err) {
                                     errorLog.error(err)
                                     throw err
