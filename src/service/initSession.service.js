@@ -3,11 +3,11 @@ const session = require('express-session')
 const config = require('../config/config')
 const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 
-const initSession = (app) => {
+const initSession = app => {
     
     app.use(session({
         store: MongoStore.create({
-            mongoUrl: process.env.MONGO_URL,
+            mongoUrl: config.mongo_url,
             mongoOptions: advancedOptions
         }),
         secret: 'session',

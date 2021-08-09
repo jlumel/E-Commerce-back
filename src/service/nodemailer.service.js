@@ -1,10 +1,10 @@
-const nodemailer =  require('nodemailer')
+const nodemailer = require('nodemailer')
 const { logger, errorLog } = require('./logger.service.js')
 const config = require('../config/config')
 
-const sendMail = (type, user, cart) => {
+const sendMail = (type, user, order) => {
     const transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
+        host: config.nodemailer_host,
         port: 587,
         auth: {
             user: config.nodemailer_user,
@@ -14,17 +14,24 @@ const sendMail = (type, user, cart) => {
 
     const registerOptions = {
         from: 'Ecommerce NodeJS',
-        to: config.nodemailer_user,
+        to: user.email,
         subject: 'Información de registro de usuario',
         html: `<h1>${user.username} se ha registrado exitosamente ${new Date().toLocaleString()}</h1>`
     }
 
     const checkoutOptions = {
         from: 'Ecommerce NodeJS',
-        to: process.env.NODEMAILER_USER,
+        to: user.email,
         subject: `Nuevo pedido de ${user.username} - ${user.email} `,
         html: `<ul>
-        ${cart.map(product => `<li>${product}</li>`)}
+        <li>
+        <ol>
+        ${order.items.map(item => `<li>${item.title} - ${item.description} - $${item.price}</li>`)}
+        </ol>
+        </li>
+        <li>Creada ${order.timestamp.toLocaleString()}</li>
+        <li>Estado: ${order.state}</li>
+        <li>Monto total: $${order.total}</li>
         </ul>`
     }
 

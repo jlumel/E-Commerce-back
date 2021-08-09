@@ -13,14 +13,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
         integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG"
         crossorigin="anonymous"></script>
-    <title>Fail Login</title>
+    <title>Error</title>
 </head>
 
 <body>
     <div style="background-color: #fa8072; border-radius: 10px;" class="container d-grid col-4 mb-4">
-        <h1 style="color: white; text-align: center;"><%=error.descripcion %></h1>
+        <h1 style="color: white; text-align: center;"><%=error.message %></h1>
         <div style="justify-content: center;" class="d-flex mb-3">
-            <button onclick="history.back()"" class="btn btn-warning">Volver</button>
+            <button onclick="history.back()" class="btn btn-warning">Volver</button>
         </div>
     </div>
 </body>

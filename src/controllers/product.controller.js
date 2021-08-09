@@ -1,13 +1,13 @@
 const productModel = require('../models/product.model')
-const {errorLog} = require('../service/logger.service')
+const { errorLog } = require('../service/logger.service')
 
 const productController = {
 
     getProducts: (req, res) => {
         productModel.find({})
             .then(products => res.send(products))
-            .catch((err) => {
-                res.send({error: 1, descripcion: "No hay productos cargados"})
+            .catch(err => {
+                res.render('errorpage', { error: { message: "No hay productos cargados" } })
                 errorLog.error(err)
             })
     },
@@ -25,8 +25,8 @@ const productController = {
         const nuevoProducto = new productModel(producto)
         nuevoProducto.save()
             .then(() => res.sendStatus(201))
-            .catch((err) => {
-                res.send({error: 2, descripcion: "Error al cargar el producto"})
+            .catch(err => {
+                res.render('errorpage', { error: { message: "Error al cargar el producto" } })
                 errorLog.error(err)
             })
     },
@@ -34,29 +34,29 @@ const productController = {
     getProductById: (req, res) => {
         const id = req.params.id
         productModel.find({ "_id": id })
-            .then((product) => res.send(product))
-            .catch((err) => {
-                res.send({error: 3, descripcion: "Producto no encontrado"})
+            .then(product => res.send(product))
+            .catch(err => {
+                res.render('errorpage', { error: { message: "Producto no encontrado" } })
                 errorLog.error(err)
             })
     },
 
-    getProductByTitle: (req, res)=> {
-        const {title} = req.query
-        productModel.find({title: {$regex: `${title}`, $options: "$i"}})
-            .then((product) => res.send(product))
-            .catch((err) => {
-                res.send({error: 3, descripcion: "Producto no encontrado"})
+    getProductByTitle: (req, res) => {
+        const { title } = req.query
+        productModel.find({ title: { $regex: `${title}`, $options: "$i" } })
+            .then(product => res.send(product))
+            .catch(err => {
+                res.render('errorpage', { error: { message: "Producto no encontrado" } })
                 errorLog.error(err)
             })
     },
 
-    getProductsByPrice: (req, res)=> {
-        const {min, max} = req.query
-        productModel.find({ price: {$lte: Number(max), $gte: Number(min)}})
-            .then((product) => res.send(product))
-            .catch((err) => {
-                res.send({error: 3, descripcion: "Producto no encontrado"})
+    getProductsByPrice: (req, res) => {
+        const { min, max } = req.query
+        productModel.find({ price: { $lte: Number(max), $gte: Number(min) } })
+            .then(product => res.send(product))
+            .catch(err => {
+                res.render('errorpage', { error: { message: "Producto no encontrado" } })
                 errorLog.error(err)
             })
     },
@@ -77,18 +77,18 @@ const productController = {
             }
         )
             .then((producto) => res.send(producto))
-            .catch((err) => {
-                res.send({error: 4, descripcion: "No se pudo actualizar el producto"})
+            .catch(err => {
+                res.render('errorpage', { error: { message: "No se pudo actualizar el producto" } })
                 errorLog.error(err)
             })
     },
 
-    removeProduct:(req, res) => {
+    removeProduct: (req, res) => {
         const id = req.params.id
         productModel.deleteOne({ "_id": id })
             .then(() => res.sendStatus(204))
-            .catch((err) => {
-                res.send({error: 5, descripcion: "No se pudo eliminar el producto"})
+            .catch(err => {
+                res.render('errorpage', { error: { message: "No se pudo eliminar el producto" } })
                 errorLog.error(err)
             })
     }
