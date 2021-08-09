@@ -5,43 +5,22 @@ const verifyToken = require('../middleware/jwt')
 const Carrito = router => {
 
     router.get('/carrito', verifyToken, (req, res) => {
-        if (req.isAuthenticated()) {
-
-            cartController.getCarts(req, res)
-        } else {
-            res.redirect('/login')
-        }
+        cartController.getCarts(req, res)
     })
 
     router.get('/carrito/:id', (req, res) => {
-
-        if (req.isAuthenticated()) {
-
-            cartController.getCartById(req, res)
-        } else {
-            res.redirect('/login')
-        }
+        cartController.getCartById(req, res)
     })
 
     router.post('/carrito', (req, res) => {
-        if (req.isAuthenticated()) {
-
-            cartController.createCart(req, res)
-        } else {
-            res.redirect('/login')
-        }
+        cartController.createCart(req, res)
     })
 
     router.delete('/carrito/:id', (req, res) => {
-        if (req.isAuthenticated()) {
-
-            cartController.removeCart(req, res)
-        } else {
-            res.redirect('/login')
-        }
+        cartController.removeCart(req, res)
     })
 
-    router.post('/checkout', (req, res)=> {
+    router.post('/checkout', (req, res) => {
         const cart = req.body.cart
         const user = req.body.user
         sendMail('checkout', user, cart)

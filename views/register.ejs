@@ -19,7 +19,7 @@
 <body>
     <div class="container bg-light d-grid col-4 mb-3">
         <h1>Registro de usuario</h1>
-        <form method="POST" action="/register" enctype="application/x-www-form-urlencoded">
+        <form method="POST" action="/api/register" enctype="application/x-www-form-urlencoded">
             <div class="mb-4">
               <label for="username" class="form-label">Username</label>
               <input name="username" type="text" class="form-control" id="username">
@@ -37,8 +37,6 @@
               <input name="age" type="text" class="form-control" id="age">
               <label for="phone" class="form-label">Phone</label>
               <input name="phone" type="text" class="form-control" id="phone">
-              <label for="avatar" class="form-label">Avatar</label>
-              <input name="avatar" type="text" class="form-control" id="avatar">
             </div>
             <button type="submit" class="btn btn-success">Register</button>
             <hr>

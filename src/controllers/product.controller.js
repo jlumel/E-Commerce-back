@@ -5,7 +5,7 @@ const productController = {
 
     getProducts: (req, res) => {
         productModel.find({})
-            .then((products) => res.send(products))
+            .then(products => res.send(products))
             .catch((err) => {
                 res.send({error: 1, descripcion: "No hay productos cargados"})
                 errorLog.error(err)

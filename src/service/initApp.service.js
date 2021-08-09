@@ -1,6 +1,6 @@
-import { logger, errorLog } from './logger.service.js'
-import { mongoDB } from '../DB/initDataBase'
-import config from '../config/config'
+const { logger, errorLog } = require('./logger.service.js')
+const { mongoDB } = require('../DB/initDataBase')
+const config = require('../config/config')
 
 const initApp = (app) => {
 

@@ -1,4 +1,5 @@
 const productController =  require('../controllers/product.controller')
+const verifyToken = require('../middleware/jwt')
 
 const Productos = router => {
 

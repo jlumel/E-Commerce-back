@@ -18,9 +18,9 @@
 
 <body>
     <div style="background-color: #fa8072; border-radius: 10px;" class="container d-grid col-4 mb-4">
-        <h1 style="color: white; text-align: center;">USER ERROR LOGIN</h1>
+        <h1 style="color: white; text-align: center;"><%=error.descripcion %></h1>
         <div style="justify-content: center;" class="d-flex mb-3">
-            <button onclick="window.location.href = '/login'" class="btn btn-warning">Volver</button>
+            <button onclick="history.back()"" class="btn btn-warning">Volver</button>
         </div>
     </div>
 </body>

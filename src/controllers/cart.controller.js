@@ -1,5 +1,7 @@
 const cartModel = require('../models/cart.model')
-const {errorLog} = require('../service/logger.service')
+const orderModel = require('../models/order.model')
+const sendMail = require('../service/nodemailer.service')
+const { errorLog } = require('../service/logger.service')
 
 const cartController = {
 
@@ -20,11 +22,11 @@ const cartController = {
 
     getCarts: (req, res) => {
         cartModel.find({})
-        .then((carts) => res.send(carts))
-        .catch((err) => {
-            res.send({ error: 7, descripcion: "Carrito no encontrado" })
-            errorLog.error(err)
-        })
+            .then((carts) => res.send(carts))
+            .catch((err) => {
+                res.send({ error: 7, descripcion: "Carrito no encontrado" })
+                errorLog.error(err)
+            })
     },
 
     getCartById: (req, res) => {
@@ -50,36 +52,53 @@ const cartController = {
 
     addToCart: (req, res) => {
         const id = req.params.id
-        const {timestamp, products} = req.body.cart
+        const { timestamp, products } = req.body.cart
         const product = req.body.product
-        cartModel.updateOne({"_id": id},
-        {
-            $set: {timestamp, products: product, ...products}
-        }
+        cartModel.updateOne({ "_id": id },
+            {
+                $set: { timestamp, products: product, ...products }
+            }
         )
-        .then((cart) => res.send(cart))
-        .catch((err) => {
-            res.send({error: 4, descripcion: "No se pudo actualizar el carrito"})
-            errorLog.error(err)
-        })
+            .then((cart) => res.send(cart))
+            .catch((err) => {
+                res.send({ error: 4, descripcion: "No se pudo actualizar el carrito" })
+                errorLog.error(err)
+            })
     },
 
     removeFromCart: (req, res) => {
         const id = req.params.id
         const cart = req.body.cart
-        let {timestamp, products} = cart
+        let { timestamp, products } = cart
         const product = req.body.product
         products = products.filter(product => product !== product)
-        cartModel.updateOne({"_id": id},
-        {
-            $set: {timestamp, products}
-        }
+        cartModel.updateOne({ "_id": id },
+            {
+                $set: { timestamp, products }
+            }
         )
-        .then((cart) => res.send(cart))
-        .catch((err) => {
-            res.send({error: 4, descripcion: "No se pudo actualizar el carrito"})
-            errorLog.error(err)
-        })
+            .then((cart) => res.send(cart))
+            .catch((err) => {
+                res.send({ error: 4, descripcion: "No se pudo actualizar el carrito" })
+                errorLog.error(err)
+            })
+    },
+    cartSubmit: (req, res) => {
+
+        if (!cart.length) {
+            res.sendStatus(400)
+        } else {
+            let newOrder = new orderModel()
+            newOrder.userId = cart.userId
+            newOrder.items = cart.products
+            newOrder.timestamp = Date.now()
+            newOrder.state = 'generada'
+            newOrder.total = cart.products.reduce((acc, product)=> acc + product.price, 0)
+            newOrder.save()
+                .then(() => {
+sendMail()
+                })
+        }
     }
 
 

@@ -1,6 +1,4 @@
 const nodemailer =  require('nodemailer')
-const {Product} =  require('../models/product.model')
-const { User } =  require('../models/users.model')
 const { logger, errorLog } = require('./logger.service.js')
 const config = require('../config/config')
 

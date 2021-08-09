@@ -19,10 +19,10 @@ const verifyToken = (req, res, next) => {
                 message: 'Token inválido'
             })
         }
-        req.user = value.data
+        req.user = value
         next()
 
     })
 }
 
-module.expoorts = verifyToken
+module.exports = verifyToken
