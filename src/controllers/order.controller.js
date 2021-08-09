@@ -1,42 +1,44 @@
 const orderModel = require('../models/order.model')
-const {errorLog} = require('../service/logger.service')
+const { errorLog } = require('../service/logger.service')
+const sendMail = require('../service/nodemailer.service')
 
 const orderController = {
 
-    getorders: (req, res) => {
-        orderModel.find({"userId": req.session.user._id})
+    getOrders: (req, res) => {
+        orderModel.find({ "userId": req.session.user._id })
             .then(orders => res.send(orders))
             .catch(err => {
-                res.render('errorpage', { error: {message:"No hay ordenes cargadas" }})
+                res.render('errorpage', { error: { message: "No hay ordenes cargadas" } })
                 errorLog.error(err)
             })
     },
 
-    addorder: (req, res) => {
+    completeOrder: (req, res) => {
 
-        const { userId, items, timestamp, state, total } = req.body
-        const ordero = {
-            userId,
-            items,
-            timestamp,
-            state,
-            total
-        }
-        const nuevoordero = new orderModel(ordero)
-        nuevoordero.save()
-            .then(() => res.sendStatus(201))
+        const { id } = req.body
+        orderModel.find({ "_id": id })
+            .then(order => {
+                if (order.state === 'generada') {
+                    orden.state = 'completada'
+                    sendMail('checkout', req.session.user, order)
+                } else {
+                    res.sendStatus(400)
+                }
+                res.send(order)
+            })
             .catch(err => {
-                res.render('errorpage', { error: {message:"Error al cargar el ordero" }})
+                res.status(400).render('errorpage', { error: { message: "Orden no encontrada" } })
                 errorLog.error(err)
             })
+
     },
 
-    getorderById: (req, res) => {
+    getOrderById: (req, res) => {
         const id = req.params.id
         orderModel.find({ "_id": id })
             .then(order => res.send(order))
             .catch(err => {
-                res.render('errorpage', { error: {message:"Orden no encontrada" }})
+                res.render('errorpage', { error: { message: "Orden no encontrada" } })
                 errorLog.error(err)
             })
     }
