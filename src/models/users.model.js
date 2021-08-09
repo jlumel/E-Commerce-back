@@ -10,7 +10,7 @@ const userModel = mongoose.model('User', new mongoose.Schema(
         address: { type: String, required: true },
         age: { type: Number, required: true },
         phone: { type: String, required: true },
-        avatar: { type: String, required: true },
+        admin: {type: Boolean}
 
 
     }

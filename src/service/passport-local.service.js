@@ -4,7 +4,7 @@ import { logger, errorLog } from './logger.service.js'
 
 const LocalStrategy = passport_local.Strategy
 const validatePassword = (user, password) => bCrypt.compareSync(password, user.password)
-const createHash = (password) => bCrypt.hashSync(password, bCrypt.genSaltSync(10))
+const createHash = password => bCrypt.hashSync(password, bCrypt.genSaltSync(10))
 
 const passportLocal = (app) => {
 

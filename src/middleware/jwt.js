@@ -3,11 +3,11 @@ const config = require('../config/config')
 
 const jwtSecret = config.jwt_secret
 
-const verify = (req, res, next) => {
+const verifyToken = (req, res, next) => {
     const token = req.headers.authorization
     if (!token) {
-        return res.send({
-            message: 'Falta el header authorization'
+        res.status(403).send({
+            error: 'Falta el header authorization'
         })
     }
 
@@ -15,7 +15,7 @@ const verify = (req, res, next) => {
 
     jwt.verify(jwtToken, jwtSecret, (err, value) => {
         if (err) {
-            return res.send({
+            res.status(403).send({
                 message: 'Token inválido'
             })
         }
@@ -25,4 +25,4 @@ const verify = (req, res, next) => {
     })
 }
 
-module.expoorts = verify
+module.expoorts = verifyToken

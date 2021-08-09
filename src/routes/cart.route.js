@@ -1,11 +1,13 @@
-const cartService = require('../controllers/cart.controller')
+const cartController = require('../controllers/cart.controller')
 const sendMail = require('../service/nodemailer.service')
-const Carrito = (router) => {
+const verifyToken = require('../middleware/jwt')
 
-    router.get('/carrito', (req, res) => {
+const Carrito = router => {
+
+    router.get('/carrito', verifyToken, (req, res) => {
         if (req.isAuthenticated()) {
 
-            cartService.getCarts(req, res)
+            cartController.getCarts(req, res)
         } else {
             res.redirect('/login')
         }
@@ -15,7 +17,7 @@ const Carrito = (router) => {
 
         if (req.isAuthenticated()) {
 
-            cartService.getCartById(req, res)
+            cartController.getCartById(req, res)
         } else {
             res.redirect('/login')
         }
@@ -24,7 +26,7 @@ const Carrito = (router) => {
     router.post('/carrito', (req, res) => {
         if (req.isAuthenticated()) {
 
-            cartService.createCart(req, res)
+            cartController.createCart(req, res)
         } else {
             res.redirect('/login')
         }
@@ -33,7 +35,7 @@ const Carrito = (router) => {
     router.delete('/carrito/:id', (req, res) => {
         if (req.isAuthenticated()) {
 
-            cartService.removeCart(req, res)
+            cartController.removeCart(req, res)
         } else {
             res.redirect('/login')
         }

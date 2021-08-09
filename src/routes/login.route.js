@@ -1,6 +1,6 @@
 const config = require('../config/config')
 
-const login = (router) => {
+const login = router => {
 
     router.get('/login', (req, res) => {
         res.render('login')
@@ -19,12 +19,20 @@ const login = (router) => {
     })
 
     router.post('/login', (req, res) => {
-        jwt.sign(req.body, config.jwt_secret, (err, token) => {
-            if (err) {
-                res.send({ message: 'No se pudo generar el token' })
+        const { username, password } = req.body
+        const user = userModel.find(user => user.username === username)
+        if (!user) {
+            res.send({ error: 'El usuario no existe' })
+        } else {
+            const validatePassword = (user, password) => bCrypt.compareSync(password, user.password)
+            if (!validatePassword(user, password)) {
+                res.status(403).send({ error: 'Password inválida' })
+            } else {
+                const token = jwt.sign(req.body, config.jwt_secret, { expiresIn: `${Number(config.session_ttl) / 1000}` })
+                res.status(200).send({ token })
             }
-            res.send({ token })
-        })
+
+        }
     })
 
 }

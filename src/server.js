@@ -1,6 +1,6 @@
 const express =  require('express')
 const products = require('./routes/product.route')
-const productController = require('./controllers/product.controller')
+const users = require('./routes/user.route')
 const cart = require('./routes/cart.route')
 const initApp = require('./service/initApp.service')
 const initSession = require('./service/initSession.service')
@@ -23,16 +23,17 @@ app.use('/api', router)
 
 products(router)
 cart(router)
-initSession(app)
+users(router)
+// initSession(app)
 passportLocal(app)
-login(app)
-register(app)
+login(router)
+register(router)
 initApp(app)
 
-app.get('/', (req, res) => {
-    if (req.isAuthenticated()) {
-        productController.getProducts(req, res)
-    } else {
-        res.redirect('/login')
-    }
-})
+// app.get('/', (req, res) => {
+//     if (req.isAuthenticated()) {
+//         productController.getProducts(req, res)
+//     } else {
+//         res.render('login')
+//     }
+// })
