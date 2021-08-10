@@ -3,7 +3,7 @@ const products = require('./routes/product.route')
 const users = require('./routes/user.route')
 const cart = require('./routes/cart.route')
 const initApp = require('./service/initApp.service')
-const initSession = require('./service/initSession.service')
+const initSession = require('./middleware/initSession')
 const cookieParser = require('cookie-parser')
 const compression = require('compression')
 const chat = require('./service/chat.service')
@@ -22,11 +22,11 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 app.use('/api', router)
+initSession(app)
 
 //Inicializacion de la App
 
 initApp(http)
-initSession(app)
 chat(io)
 
 //Rutas

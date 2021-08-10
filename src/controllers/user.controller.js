@@ -55,7 +55,7 @@ const userController = {
                res.status(403).send({ error: 'Password inválida' })
             } else {
                const token = jwt.sign(req.body, config.jwt_secret, { expiresIn: `${Number(config.session_ttl) / 1000}` })
-               // req.session.user = user
+               req.session.user = user
                res.status(200).send({ token })
             }
          }
