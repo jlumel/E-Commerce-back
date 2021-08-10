@@ -21,8 +21,8 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
-app.use('/api', router)
 initSession(app)
+app.use('/api', router)
 
 //Inicializacion de la App
 
