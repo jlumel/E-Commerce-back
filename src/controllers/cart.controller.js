@@ -1,6 +1,5 @@
 const cartModel = require('../models/cart.model')
 const orderModel = require('../models/order.model')
-const userModel = require('../models/user.model')
 const sendMail = require('../service/nodemailer.service')
 const { errorLog } = require('../service/logger.service')
 

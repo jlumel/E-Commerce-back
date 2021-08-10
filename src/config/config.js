@@ -8,7 +8,7 @@ let config = {
     PORT: process.env.PORT,
     nodemailer_host: process.env.NODEMAILER_HOST,
     nodemailer_user: process.env.NODEMAILER_USER,
-    nodemailer_PASS: process.env.NODEMAILER_PASS,
+    nodemailer_pass: process.env.NODEMAILER_PASS,
     session_ttl: process.env.SESSION_TTL,
     jwt_secret: process.env.JWT_SECRET
 }

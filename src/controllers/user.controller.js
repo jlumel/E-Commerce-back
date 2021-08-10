@@ -1,6 +1,9 @@
 const userModel = require('../models/user.model')
 const cartModel = require('../models/cart.model')
 const sendMail = require('../service/nodemailer.service')
+const bCrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const config = require('../config/config')
 
 const userController = {
    registerUser: (req, res) => {
@@ -33,7 +36,7 @@ const userController = {
                   cart.address = user.address
                   cart.save()
                      .then(() => {
-                        sendMail('register', req.body, [])
+                        sendMail('register', req.body, null)
                         res.status(200).send({ token })
                      })
                })

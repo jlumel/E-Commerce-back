@@ -26,12 +26,12 @@ const sendMail = (type, user, order) => {
         html: `<ul>
         <li>
         <ol>
-        ${order.items.map(item => `<li>${item.title} - ${item.description} - $${item.price}</li>`)}
+        ${order ? order.items.map(item => `<li>${item.title} - ${item.description} - $${item.price}</li>`): ''}
         </ol>
         </li>
-        <li>Creada ${order.timestamp.toLocaleString()}</li>
-        <li>Estado: ${order.state}</li>
-        <li>Monto total: $${order.total}</li>
+        <li>Creada ${order ? order.timestamp.toLocaleString() : ''}</li>
+        <li>Estado: ${order ? order.state: ''}</li>
+        <li>Monto total: $${order ? order.total: ''}</li>
         </ul>`
     }
 

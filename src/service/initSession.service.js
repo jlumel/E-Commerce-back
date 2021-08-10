@@ -1,4 +1,4 @@
-const MongoStore =  require('connect-mongo')
+const MongoStore = require('connect-mongo')
 const session = require('express-session')
 const config = require('../config/config')
 const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true }
