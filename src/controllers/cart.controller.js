@@ -5,8 +5,8 @@ const { errorLog } = require('../service/logger.service')
 
 const cartController = {
 
-    getCartById: (req, res) => {
-        const id = req.params.id
+    getCart: (req, res) => {
+        const id = req.session.user._id
         cartModel.find({ "_id": id })
             .then(cart => res.send(cart))
             .catch(err => {

@@ -3,15 +3,15 @@ const verifyToken = require('../middleware/jwt')
 
 const Carrito = router => {
 
-    router.get('/carrito/:id', (req, res) => {
-        cartController.getCartById(req, res)
+    router.get('/cart', (req, res) => {
+        cartController.getCart(req, res)
     })
 
-    router.post('/carrito/add', (req, res) => {
+    router.post('/cart/add', (req, res) => {
         cartController.addToCart(req, res)
     })
 
-    router.delete('/carrito/delete/:id', (req, res) => {
+    router.delete('/cart/delete/:id', (req, res) => {
         cartController.removeFromCart(req, res)
     })
 
