@@ -14,10 +14,11 @@ const productController = {
 
     addProduct: (req, res) => {
 
-        const { title, description, price, stock, thumbnails } = req.body
+        const { title, description, category, price, stock, thumbnails } = req.body
         const producto = {
             title,
             description,
+            category,
             price,
             stock,
             thumbnails
@@ -31,9 +32,9 @@ const productController = {
             })
     },
 
-    getProductById: (req, res) => {
-        const id = req.params.id
-        productModel.find({ "_id": id })
+    getProductByCategory: (req, res) => {
+        const category = req.params.category
+        productModel.find({ "category": category })
             .then(product => res.send(product))
             .catch(err => {
                 res.render('errorpage', { error: { message: "Producto no encontrado" } })
@@ -63,10 +64,11 @@ const productController = {
 
     updateProduct: (req, res) => {
         const id = req.params.id
-        const { title, description, price, stock, thumbnails } = req.body
+        const { title, description, category, price, stock, thumbnails } = req.body
         const producto = {
             title,
             description,
+            category,
             price,
             stock,
             thumbnails

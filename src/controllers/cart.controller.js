@@ -16,7 +16,7 @@ const cartController = {
     },
 
     addToCart: (req, res) => {
-        const id = req.params.id
+        const id = req.session.user._id
         const { timestamp, products } = req.body.cart
         const product = req.body.product
         cartModel.updateOne({ "_id": id },

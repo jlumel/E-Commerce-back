@@ -13,41 +13,20 @@ const Productos = router => {
         }
     })
 
-    router.post('/productos', (req, res) => {
-        if (req.isAuthenticated()) {
+    router.post('/productos', verifyToken, (req, res) => {
             productController.addProduct(req, res)
-        } else {
-            res.send({ error: -1, descripcion: `ruta ${req.originalUrl} y metodo ${req.method} no autorizados` })
-        }
-
     })
 
-    router.get('/productos/:id', (req, res) => {
-        if (req.isAuthenticated()) {
-
-            productController.getProductById(req, res)
-        } else {
-            res.send({ error: -1, descripcion: `ruta ${req.originalUrl} y metodo ${req.method} no autorizados` })
-        }
+    router.get('/productos/:category', (req, res) => {
+            productController.getProductByCategory(req, res)
     })
 
-    router.put('/productos/:id', (req, res) => {
-
-        if (req.isAuthenticated()) {
+    router.put('/productos/:id', verifyToken, (req, res) => {
             productController.updateProduct(req, res)
-        } else {
-            res.send({ error: -1, descripcion: `ruta ${req.originalUrl} y metodo ${req.method} no autorizados` })
-        }
-
     })
 
-    router.delete('/productos/:id', (req, res) => {
-        if (req.isAuthenticated()) {
+    router.delete('/productos/:id', verifyToken, (req, res) => {
             productController.removeProduct(req, res)
-        } else {
-            res.send({ error: -1, descripcion: `ruta ${req.originalUrl} y metodo ${req.method} no autorizados` })
-        }
-
     })
 }
 

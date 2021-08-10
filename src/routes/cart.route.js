@@ -1,5 +1,4 @@
 const cartController = require('../controllers/cart.controller')
-const verifyToken = require('../middleware/jwt')
 
 const Carrito = router => {
 
@@ -11,7 +10,7 @@ const Carrito = router => {
         cartController.addToCart(req, res)
     })
 
-    router.delete('/cart/delete/:id', (req, res) => {
+    router.delete('/cart/delete', (req, res) => {
         cartController.removeFromCart(req, res)
     })
 
