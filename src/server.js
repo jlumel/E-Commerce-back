@@ -1,7 +1,9 @@
 const express = require('express')
-const products = require('./routes/product.route')
 const users = require('./routes/user.route')
+const products = require('./routes/product.route')
 const cart = require('./routes/cart.route')
+const orders = require('./routes/order.route')
+// const image = require('./routes/image.route')
 const initApp = require('./service/initApp.service')
 const initSession = require('./middleware/initSession')
 const cookieParser = require('cookie-parser')
@@ -32,9 +34,11 @@ chat(io)
 
 //Rutas
 
+users(router)
 products(router)
 cart(router)
-users(router)
+orders(router)
+// image(router)
 
 app.get('/', (req, res) => {
     if (req.session.user) {

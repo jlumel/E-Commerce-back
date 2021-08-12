@@ -18,15 +18,11 @@ const verifyToken = (req, res, next) => {
                     message: 'Token inválido'
                 })
             } else {
+                req.user = value
                 next()
             }
-
-
         })
-
     }
-
-
 }
 
 module.exports = verifyToken

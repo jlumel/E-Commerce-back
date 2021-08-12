@@ -1,5 +1,5 @@
 const verifyAdmin = (req, res, next) => {
-    if (req.session.user.admin) {
+    if (req.user._doc && req.user._doc.admin) {
         next()
     } else {
         res.sendStatus(401)

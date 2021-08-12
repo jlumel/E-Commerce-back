@@ -10,6 +10,10 @@ const Usuarios = router => {
     router.post('/user/login', (req, res) => {
         userController.loginUser(req, res)
     })
+
+    router.get('/user/logout', (req, res) => {
+        userController.logoutUser(req, res)
+    })
 }
 
 module.exports = Usuarios
