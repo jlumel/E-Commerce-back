@@ -1,5 +1,6 @@
 const productController =  require('../controllers/product.controller')
-const verifyToken = require('../middleware/jwt')
+const verifyAdmin = require('../middleware/verifyAdmin')
+const verifyToken = require('../middleware/verifyToken')
 
 const Productos = router => {
 
@@ -13,7 +14,7 @@ const Productos = router => {
         }
     })
 
-    router.post('/productos', verifyToken, (req, res) => {
+    router.post('/productos', (req, res) => {
             productController.addProduct(req, res)
     })
 
@@ -21,11 +22,11 @@ const Productos = router => {
             productController.getProductByCategory(req, res)
     })
 
-    router.put('/productos/:id', verifyToken, (req, res) => {
+    router.put('/productos/:id', (req, res) => {
             productController.updateProduct(req, res)
     })
 
-    router.delete('/productos/:id', verifyToken, (req, res) => {
+    router.delete('/productos/:id', (req, res) => {
             productController.removeProduct(req, res)
     })
 }

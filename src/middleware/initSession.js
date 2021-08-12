@@ -10,7 +10,7 @@ const initSession = app => {
             mongoUrl: config.mongo_url,
             mongoOptions: advancedOptions
         }),
-        secret: 'session',
+        secret: config.jwt_secret,
         cookie: { maxAge: Number(config.session_ttl) },
         resave: false,
         saveUninitialized: false

@@ -7,7 +7,7 @@ const cartController = {
 
     getCart: (req, res) => {
         const id = req.session.user._id
-        cartModel.find({ "_id": id })
+        cartModel.find({ "userId": id })
             .then(cart => res.send(cart))
             .catch(err => {
                 res.render('errorpage', { error: {message:"Carrito no encontrado" }})

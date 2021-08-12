@@ -7,6 +7,7 @@ const initSession = require('./middleware/initSession')
 const cookieParser = require('cookie-parser')
 const compression = require('compression')
 const chat = require('./service/chat.service')
+const config = require('./config/config')
 
 const app = express()
 const http = require('http').createServer(app)
@@ -58,4 +59,8 @@ app.get('/chat', (req, res)=> {
 app.get('/chat/:user', (req, res)=> {
     const user = req.params.user
     res.render('chat', {user})
+})
+
+app.get('/config', (req, res)=> {
+    res.render('config', {config})
 })

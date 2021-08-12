@@ -13,7 +13,7 @@ const userController = {
          if (user) {
             console.log(user)
             res.send({ error: 'El usuario ya existe' })
-         } else {
+         } else if(username && password && email && firstName && lastName && address && age && phone) {
 
             const token = jwt.sign(req.body, config.jwt_secret, { expiresIn: `${Number(config.session_ttl) / 1000}` })
             const createHash = password => bCrypt.hashSync(password, bCrypt.genSaltSync(10))
@@ -40,6 +40,8 @@ const userController = {
                         res.status(200).send({ token })
                      })
                })
+         } else {
+            res.status(400).send({message: 'Todos los campos son obligatorios'})
          }
       })
    },

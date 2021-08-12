@@ -1,10 +1,10 @@
-MONGO_URL
+MONGO_URL = url para conectar a mongo atlas
 
-PORT
+PORT = numero de puerto
 
-NODEMAILER_HOST
-NODEMAILER_USER
-NODEMAILER_PASS
+NODEMAILER_HOST = servidor smtp
+NODEMAILER_USER = mail de user para enviar mails
+NODEMAILER_PASS = pass de user para enviar mails
 
-SESSION_TTL
-JWT_SECRET
+SESSION_TTL = tiempo de duracion de sesion en milisegundos
+JWT_SECRET = palabra secreta para jwt y express session

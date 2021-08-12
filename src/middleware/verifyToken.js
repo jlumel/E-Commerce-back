@@ -9,20 +9,24 @@ const verifyToken = (req, res, next) => {
         res.status(403).send({
             error: 'Falta el header authorization'
         })
+    } else {
+        const jwtToken = token.split(' ')[1]
+
+        jwt.verify(jwtToken, jwtSecret, (err, value) => {
+            if (err) {
+                res.status(403).send({
+                    message: 'Token inválido'
+                })
+            } else {
+                next()
+            }
+
+
+        })
+
     }
 
-    const jwtToken = token.split(' ')[1]
 
-    jwt.verify(jwtToken, jwtSecret, (err, value) => {
-        if (err) {
-            res.status(403).send({
-                message: 'Token inválido'
-            })
-        }
-        req.user = value
-        next()
-
-    })
 }
 
 module.exports = verifyToken
