@@ -43,10 +43,8 @@ const cartController = {
         cartModel.find({ "userId": id })
             .then(cart => {
                 let products = Array(cart[0].products)
-                const product = req.body
-                console.log(product)
-                console.log(products)
-                products = products.filter(producto => product._id === producto._id)
+                const product_id = req.body._id
+                products = products.filter(producto => product_id === producto._id)
         cartModel.updateOne({ "userId": id },
             {
                 $set: { products: products }

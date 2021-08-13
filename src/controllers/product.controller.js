@@ -15,21 +15,26 @@ const productController = {
     addProduct: (req, res) => {
 
         const { title, description, category, price, stock, thumbnails } = req.body
-        const producto = {
-            title,
-            description,
-            category,
-            price,
-            stock,
-            thumbnails
+        if (title && description && category && price && stock >= 0 && thumbnails) {
+            const producto = {
+                title,
+                description,
+                category,
+                price,
+                stock,
+                thumbnails
+            }
+            const nuevoProducto = new productModel(producto)
+            nuevoProducto.save()
+                .then(() => res.sendStatus(201))
+                .catch(err => {
+                    res.render('errorpage', { error: { message: "Error al cargar el producto" } })
+                    errorLog.error(err)
+                })
+        } else {
+            res.status(400).send({ message: 'Todos los campos son obligatorios' })
         }
-        const nuevoProducto = new productModel(producto)
-        nuevoProducto.save()
-            .then(() => res.sendStatus(201))
-            .catch(err => {
-                res.render('errorpage', { error: { message: "Error al cargar el producto" } })
-                errorLog.error(err)
-            })
+        
     },
 
     getProductByCategory: (req, res) => {
